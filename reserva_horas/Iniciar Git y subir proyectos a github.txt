@@ -1,0 +1,33 @@
+SUBIR PROYECTOS A GITHUB DESDE GIT BASH (GIT)
+
+si tienes windows lo primero que debes de hacer es ir a descargar git
+desde este enlace gitscm.com dependiendo si tu pc es de 64 o 32 bits
+
+lo instalas como cualquier otro programa y dando en cuenta de ver si instalaste
+git para la cmd o no, tendras que ver.
+
+si buscas en tu inicio y te aparece git bash, entonces estamos bien, pero
+si no te aparece, presiona windows + r escribe cmd y da enter, dentro del cmd
+escribe "git version" asi te mostrara el numero de version de git en la consola
+y si no, es porque algo hiciste mal y deberas repetir los pasos
+
+teniendo git bash y estando dentro, configuraras tu conexion con los siguientes comandos
+
+git config global user.name "tu nombre"
+git config global user.email "tu email"
+
+puedes navegar dentro de las carpetas con el " cd  + nombre_carpetaProyecto"
+una vez estando dentro del proyecto, teniendo en cuenta de que ya creaste un repositorio en github
+escribiras esta serie de comandos
+
+git init//generas un repositorio local
+
+git add . //agregas los archivos de las carpetas
+
+git commit -m 'nombre-commit' // este comando se lleva los archivos al repositorio de github para un
+control de cambios
+
+git remote add origin https://github.com/tuNombre-de-Usuario/nombreDeTuRepo.git //para clonar y enviar archivos
+al repo
+
+git push -u origin master //para subir los archivos definitivamente
