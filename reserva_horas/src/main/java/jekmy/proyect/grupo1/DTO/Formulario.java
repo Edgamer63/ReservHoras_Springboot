@@ -7,20 +7,37 @@ public class Formulario {
     private int dia;
     private int mes;
     private int anio;
-    private String seleccion;
-    private String servicio_contratacion;
-    private String servicio_actualizacion;
-    private String otro;
+    private int hora;
+    private int seleccion;
+    private int servicio_contratacion;
+    private int servicio_actualizacion;
+    private int aceptado;
 
-    public Formulario(String email, int dia, int mes, int anio, String seleccion, String servicio_contratacion, String servicio_actualizacion, String otro) {
+    public Formulario(String email, int dia, int mes, int anio, int hora, int seleccion, int servicio_contratacion, int servicio_actualizacion, int aceptado) {
         this.email = email;
         this.dia = dia;
         this.mes = mes;
         this.anio = anio;
+        this.hora = hora;
         this.seleccion = seleccion;
         this.servicio_contratacion = servicio_contratacion;
         this.servicio_actualizacion = servicio_actualizacion;
-        this.otro = otro;
+        this.aceptado = aceptado;
+    }
+
+    @Override
+    public String toString() {
+        return "Formulario{" +
+                "email='" + email + '\'' +
+                ", dia=" + dia +
+                ", mes=" + mes +
+                ", anio=" + anio +
+                ", hora=" + hora +
+                ", seleccion=" + seleccion +
+                ", servicio_contratacion=" + servicio_contratacion +
+                ", servicio_actualizacion=" + servicio_actualizacion +
+                ", aceptado=" + aceptado +
+                '}';
     }
 
     public String getEmail() {
@@ -55,49 +72,43 @@ public class Formulario {
         this.anio = anio;
     }
 
-    public String getSeleccion() {
+    public int getHora() {
+        return hora;
+    }
+
+    public void setHora(int hora) {
+        this.hora = hora;
+    }
+
+    public int getSeleccion() {
         return seleccion;
     }
 
-    public void setSeleccion(String seleccion) {
+    public void setSeleccion(int seleccion) {
         this.seleccion = seleccion;
     }
 
-    public String getServicio_contratacion() {
+    public int getServicio_contratacion() {
         return servicio_contratacion;
     }
 
-    public void setServicio_contratacion(String servicio_contratacion) {
+    public void setServicio_contratacion(int servicio_contratacion) {
         this.servicio_contratacion = servicio_contratacion;
     }
 
-    public String getServicio_actualizacion() {
+    public int getServicio_actualizacion() {
         return servicio_actualizacion;
     }
 
-    public void setServicio_actualizacion(String servicio_actualizacion) {
+    public void setServicio_actualizacion(int servicio_actualizacion) {
         this.servicio_actualizacion = servicio_actualizacion;
     }
 
-    public String getOtro() {
-        return otro;
+    public int getAceptado() {
+        return aceptado;
     }
 
-    public void setOtro(String otro) {
-        this.otro = otro;
-    }
-
-    @Override
-    public String toString() {
-        return "Formulario{" +
-                "email='" + email + '\'' +
-                ", dia=" + dia +
-                ", mes=" + mes +
-                ", anio=" + anio +
-                ", seleccion='" + seleccion + '\'' +
-                ", servicio_contratacion='" + servicio_contratacion + '\'' +
-                ", servicio_actualizacion='" + servicio_actualizacion + '\'' +
-                ", otro='" + otro + '\'' +
-                '}';
+    public void setAceptado(int aceptado) {
+        this.aceptado = aceptado;
     }
 }

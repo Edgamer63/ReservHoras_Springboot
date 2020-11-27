@@ -5,35 +5,58 @@ import jekmy.proyect.grupo1.DTO.Formulario;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-
+@CrossOrigin(origins = "http://localhost:4200")
 public class FormularioResource {
-
-    @RequestMapping(method = RequestMethod.GET, value = "/ObtenerPeticiones/{email}")
-    public Formulario obtenerPeticiones(@PathVariable(name = "email") String email)
-        throws SQLException {
-        Formulario form = new FormularioDAO().ObtenerPeticiones(email);
+    @RequestMapping(method = RequestMethod.PUT, value = "/AceptarHora/{hora}/{dia}/{mes}/{anio}")
+    public int aceptarHora(@PathVariable(name = "hora") int hora,
+                           @PathVariable(name = "dia") int dia,
+                           @PathVariable(name = "mes") int mes,
+                           @PathVariable(name = "anio") int anio
+    ) throws SQLException {
+        int form = new FormularioDAO().aceptarHora(hora,dia,mes,anio);
         return form;
     }
-    @RequestMapping(method = RequestMethod.POST, value = "/ingresoPeticiones/")
-    public Formulario IngresarPeticiones(@RequestBody Formulario f) throws SQLException {
-        new FormularioDAO().IngresoPeticion(f);
-        return f;
+
+    //Pasaron el test:
+
+    @RequestMapping(method = RequestMethod.GET, value = "/ObtenerPeticiones/{email}/")
+    public List<Formulario> obtenerPeticiones(@PathVariable(name = "email") String email)
+        throws SQLException {
+        List<Formulario> form = new FormularioDAO().ObtenerPeticiones(email);
+        return form;
     }
-    @RequestMapping(method = RequestMethod.PUT, value = "/ActualizarDatos/{dia}/{mes}/" +
-            "{anio}/{seleccion}/{servicio_contratacion}/{servicio_actualizacion}/" +
-            "{otro}/")
-    public void ActualizarDatos(@PathVariable(name = "dia") int dia,
-                                @PathVariable(name = "mes") int mes,
-                                @PathVariable(name = "anio") int anio,
-                                @PathVariable(name = "seleccion") String seleccion,
-                                @PathVariable(name = "servicio_contratacion") String servicio_contratacion,
-                                @PathVariable(name = "servicio_actualizacion") String servicio_actualizacion,
-                                @PathVariable(name = "otro") String otro,
-                                @RequestBody Formulario f) throws SQLException {
-        new FormularioDAO().ActualizarDatos(dia, mes, anio, seleccion, servicio_contratacion,
-                servicio_actualizacion, otro, f);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/ObtenerTodasPeticionesNoAceptadas/")
+    public List<Formulario> obtenerTodasPeticionesNoAceptadas() throws SQLException {
+        List<Formulario> form = new FormularioDAO().ObtenerTodasPeticionesNoAceptadas();
+        return form;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/ObtenerTodasPeticionesAceptadas/")
+    public List<Formulario> obtenerTodasPeticionesAceptadas() throws SQLException {
+        List<Formulario> form = new FormularioDAO().ObtenerTodasPeticionesAceptadas();
+        return form;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/ObtenerTodasPeticiones/")
+    public List<Formulario> obtenerTodasPeticiones() throws SQLException {
+        List<Formulario> form = new FormularioDAO().ObtenerTodasPeticiones();
+        return form;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/ObtenerHora/{hora}/{dia}/{mes}/{anio}")
+    public int obtenerHora(@PathVariable(name = "hora") int hora,
+                           @PathVariable(name = "dia") int dia,
+                           @PathVariable(name = "mes") int mes,
+                           @PathVariable(name = "anio") int anio
+    ) throws SQLException {
+        int form = new FormularioDAO().obtenerHora(hora,dia,mes,anio);
+        return form;
+    }
+
+
 }

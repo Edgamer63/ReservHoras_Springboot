@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FormularioDAO {
     private Connection conexion;
@@ -14,7 +16,118 @@ public class FormularioDAO {
     public FormularioDAO() throws SQLException {
         this.conexion = ConnectionManager.obtenerConexion();
     }
-    public Formulario ObtenerPeticiones(String email) throws SQLException {
+
+
+    public List<Formulario> ObtenerTodasPeticiones() throws SQLException {
+        List<Formulario> ret = new ArrayList<Formulario>();
+
+        String sql = "select * from grupo1_reservas";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            Formulario F = new Formulario(
+                    rs.getString("email"),
+                    rs.getInt("dia"),
+                    rs.getInt("mes"),
+                    rs.getInt("anio"),
+                    rs.getInt("hora"),
+                    rs.getInt("seleccion"),
+                    rs.getInt("servicio_contratacion"),
+                    rs.getInt("servicio_actualizacion"),
+                    rs.getInt("aceptado")
+            );
+            ret.add(F);
+        }
+        return ret;
+
+    }
+
+    public List<Formulario> ObtenerTodasPeticionesNoAceptadas() throws SQLException {
+        List<Formulario> ret = new ArrayList<Formulario>();
+
+        String sql = "select * from grupo1_reservas where aceptado = ?";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setInt(1, 0);
+
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            Formulario F = new Formulario(
+                    rs.getString("email"),
+                    rs.getInt("dia"),
+                    rs.getInt("mes"),
+                    rs.getInt("anio"),
+                    rs.getInt("hora"),
+                    rs.getInt("seleccion"),
+                    rs.getInt("servicio_contratacion"),
+                    rs.getInt("servicio_actualizacion"),
+                    rs.getInt("aceptado")
+            );
+            ret.add(F);
+        }
+        return ret;
+
+    }
+
+    public List<Formulario> ObtenerTodasPeticionesAceptadas() throws SQLException {
+        List<Formulario> ret = new ArrayList<Formulario>();
+
+        String sql = "select * from grupo1_reservas where aceptado = ?";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setInt(1, 1);
+
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            Formulario F = new Formulario(
+                    rs.getString("email"),
+                    rs.getInt("dia"),
+                    rs.getInt("mes"),
+                    rs.getInt("anio"),
+                    rs.getInt("hora"),
+                    rs.getInt("seleccion"),
+                    rs.getInt("servicio_contratacion"),
+                    rs.getInt("servicio_actualizacion"),
+                    rs.getInt("aceptado")
+            );
+            ret.add(F);
+        }
+        return ret;
+
+    }
+
+    public int obtenerHora(int hora,int dia, int mes, int anio) throws SQLException {
+        String sql = "select aceptado from grupo1_reservas where hora = ? and dia = ? and mes = ? and anio = ?";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setInt(1, hora);
+        ps.setInt(2, dia);
+        ps.setInt(3, mes);
+        ps.setInt(4, anio);
+
+        int ret = 0;
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            ret=1;
+        }
+        return ret;
+    }
+	
+
+    public int aceptarHora(int hora,int dia, int mes, int anio) throws SQLException {
+        String sql = "update grupo1_reservas set aceptado = ? where hora = ? and dia = ? and mes = ? and anio = ?";
+
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setInt(1, 1);
+        ps.setInt(2, hora);
+        ps.setInt(3, dia);
+        ps.setInt(4, mes);
+        ps.setInt(5, anio);
+
+        ps.executeUpdate();
+        return 1;
+    }
+
+    public List<Formulario> ObtenerPeticiones(String email) throws SQLException {
+        List<Formulario> ret = new ArrayList<Formulario>();
+
         String sql = "select * from grupo1_reservas where email = ?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, email);
@@ -25,58 +138,60 @@ public class FormularioDAO {
                     rs.getInt("dia"),
                     rs.getInt("mes"),
                     rs.getInt("anio"),
-                    rs.getString("seleccion"),
-                    rs.getString("servicio_contratacion"),
-                    rs.getString("servicio_actualizacion"),
-                    rs.getString("otro")
+                    rs.getInt("hora"),
+                    rs.getInt("seleccion"),
+                    rs.getInt("servicio_contratacion"),
+                    rs.getInt("servicio_actualizacion"),
+                    rs.getInt("aceptado")
             );
-            return F;
+            ret.add(F);
         }
-        return null;
+        return ret;
 
     }
-    public void IngresoPeticion(Formulario F) throws SQLException {
-        String sql = "insert into grupo1_reservas (email, dia, mes, anio, seleccion," +
-                "servicio_contratacion, servicio_actualizacion, otro)" +
-                "values(?,?,?,?,?,?,?,?)";
+
+    public void Ingresar(String correo,
+                         int dia,
+                         int mes,
+                         int anio,
+                         int hora,
+                         int seleccion,
+                         int servicio_c,
+                         int servicio_a) throws SQLException {
+        String sql = "insert into grupo1_reservas (email,dia,mes,anio,hora,seleccion,servicio_contratacion,servicio_actualizacion,aceptado) values(?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setString(1, F.getEmail());
-        ps.setInt(2,F.getDia());
-        ps.setInt(3, F.getMes());
-        ps.setInt(4, F.getAnio());
-        ps.setString(5,F.getSeleccion());
-        ps.setString(6, F.getServicio_contratacion());
-        ps.setString(7,F.getServicio_actualizacion());
-        ps.setString(8, F.getOtro());
+        ps.setString(1,correo);
+        ps.setInt(2,dia);
+        ps.setInt(3,mes);
+        ps.setInt(4,anio);
+        ps.setInt(5,hora);
+        ps.setInt(6,seleccion);
+        ps.setInt(7,servicio_c);
+        ps.setInt(8,servicio_a);
+        ps.setInt(9,0);
 
-        ps.executeUpdate();
-
+        ps.execute();
     }
-    public void ActualizarDatos(int dia, int mes, int anio,
-                                String seleccion, String servicio_contratacion,
-                                String servicio_actualizacion, String otro,
-                                Formulario f) throws SQLException {
-        String sql = "update grupo1_reservas" +
-                "set dia = ? and mes = ? and anio = ?" +
-                "and seleccion = ? and servicio_contratacion = ? or servicio_actualizacion = ?" +
-                "and otro = ? where email = ?";
+
+    public void IngresoPeticion(String correo,int dia, int mes, int anio, int hora,
+                                int seleccion, int servicio_contratacion,
+                                int servicio_actualizacion) throws SQLException {
+        String sql = "insert into grupo1_reservas (email, dia, mes, anio, hora ,seleccion," +
+                "servicio_contratacion, servicio_actualizacion, aceptado)" +
+                " values(?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setInt(1, f.getDia());
-        ps.setInt(2, f.getMes());
-        ps.setInt(3, f.getAnio());
-        ps.setString(4,f.getSeleccion());
-        ps.setString(5, f.getServicio_contratacion());
-        ps.setString(6,f.getServicio_actualizacion());
-        ps.setString(7,f.getOtro());
-        ps.setInt(8,dia);
-        ps.setInt(9, mes);
-        ps.setInt(10, anio);
-        ps.setString(11, seleccion);
-        ps.setString(12, servicio_contratacion);
-        ps.setString(13, servicio_actualizacion);
-        ps.setString(14, otro);
-        ps.executeUpdate();
+        ps.setString(1, correo);
+        ps.setInt(2,dia);
+        ps.setInt(3, mes);
+        ps.setInt(4, anio);
+        ps.setInt(5, hora);
+        ps.setInt(6,seleccion);
+        ps.setInt(7, servicio_contratacion);
+        ps.setInt(8, servicio_actualizacion);
+        ps.setInt(9, 0);
 
+        ps.execute();
     }
+
 
 }
