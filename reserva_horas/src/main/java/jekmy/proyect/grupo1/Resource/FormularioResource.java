@@ -58,5 +58,16 @@ public class FormularioResource {
         return form;
     }
 
-
+    @RequestMapping(method = RequestMethod.GET, value = "/IngresarPeticiones/{correo}/{dia}/{mes}/{anio}/{hora}/{seleccion}/{servicio_contratacion}/{servicio_actualizacion}")
+    public int IngresarPeticiones(@PathVariable(name = "correo") String correo,
+                                  @PathVariable(name = "dia") int dia,
+                                  @PathVariable(name = "mes") int mes,
+                                  @PathVariable(name = "anio") int anio,
+                                  @PathVariable(name = "hora") int hora,
+                                  @PathVariable(name = "seleccion") int seleccion,
+                                  @PathVariable(name = "servicio_contratacion") int servicio_contratacion,
+                                  @PathVariable(name = "servicio_actualizacion") int servicio_actualizacion) throws SQLException {
+        new FormularioDAO().IngresoPeticion(correo,dia,mes,anio,hora,seleccion,servicio_contratacion,servicio_actualizacion);
+        return 1;
+    }
 }

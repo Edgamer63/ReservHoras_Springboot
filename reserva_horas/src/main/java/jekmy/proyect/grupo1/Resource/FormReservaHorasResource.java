@@ -1,7 +1,6 @@
 package jekmy.proyect.grupo1.Resource;
 
 import jekmy.proyect.grupo1.DAO.FormReservaHorasDAO;
-import jekmy.proyect.grupo1.DAO.FormularioDAO;
 import jekmy.proyect.grupo1.DTO.FormReservaHoras;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -70,19 +69,5 @@ public class FormReservaHorasResource {
     public void ActualizarTelefono(@PathVariable(name = "email") String email,
                                    @PathVariable(name = "telefono") String telefono) throws SQLException {
         new FormReservaHorasDAO().ActualizarTelefono(email,telefono);
-    }
-
-    @CrossOrigin(origins = "http://localhost:4200/")
-    @RequestMapping(method = RequestMethod.POST, value = "/Ingresar/{c}/{d}-{m}-{a}/{h}/{s}/{sc}/{sa}/")
-    public int RegistroUsuarios(@PathVariable (name = "c") String c,
-                                @PathVariable (name = "d") int d,
-                                @PathVariable (name = "m") int m,
-                                @PathVariable (name = "a") int a,
-                                @PathVariable (name = "h") int h,
-                                @PathVariable (name = "s") int s,
-                                @PathVariable (name = "sc") int sc,
-                                @PathVariable (name = "sa") int sa) throws SQLException {
-        new FormularioDAO().Ingresar(c, d, m, a, h, s, sc, sa);
-        return 1;
     }
 }

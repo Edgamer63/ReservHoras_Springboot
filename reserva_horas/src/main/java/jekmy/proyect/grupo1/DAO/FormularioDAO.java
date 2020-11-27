@@ -150,29 +150,6 @@ public class FormularioDAO {
 
     }
 
-    public void Ingresar(String correo,
-                         int dia,
-                         int mes,
-                         int anio,
-                         int hora,
-                         int seleccion,
-                         int servicio_c,
-                         int servicio_a) throws SQLException {
-        String sql = "insert into grupo1_reservas (email,dia,mes,anio,hora,seleccion,servicio_contratacion,servicio_actualizacion,aceptado) values(?,?,?,?,?,?,?,?,?)";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setString(1,correo);
-        ps.setInt(2,dia);
-        ps.setInt(3,mes);
-        ps.setInt(4,anio);
-        ps.setInt(5,hora);
-        ps.setInt(6,seleccion);
-        ps.setInt(7,servicio_c);
-        ps.setInt(8,servicio_a);
-        ps.setInt(9,0);
-
-        ps.execute();
-    }
-
     public void IngresoPeticion(String correo,int dia, int mes, int anio, int hora,
                                 int seleccion, int servicio_contratacion,
                                 int servicio_actualizacion) throws SQLException {
